@@ -137,6 +137,7 @@ const UserInfo__input = styled.form`
   input {
     border-bottom: 0.1rem solid ${theme.color.primary4};
     height: 2.3rem;
+    border-radius: 0;
   }
   button {
     background: none;
