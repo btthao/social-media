@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
-import { mixin, breakpoint } from "../styles/mixin";
+
 const Styled__button = styled.button`
   width: 100%;
   padding: 1.2rem 0.8rem;
   border-radius: 2rem;
-  background: ${theme.color.primary3};
+  background: ${theme.color.primary5};
   color: ${theme.color.secondary1};
   font-size: 1.7rem;
   margin-top: 1.2rem;

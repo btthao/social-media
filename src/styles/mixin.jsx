@@ -32,7 +32,7 @@ export const mixin = {
   maxWidth: css`
     width: 100%;
     max-width: 800px;
-    min-width: 280px;
+    min-width: 315px;
     margin: auto;
   `,
   transition: css`

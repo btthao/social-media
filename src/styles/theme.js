@@ -1,16 +1,16 @@
 /* eslint-disable prettier/prettier */
 export const theme = {
     color: {
-        // primary1: "#6e5bba",
-        // primary1: "#28BB8E",
-        primary1: "#3D3B5E",
+
+        primary1: "#2F4858",
         primary2: "#3f3f3f",
-        primary3: "#E0A1B3",
-        // primary3: "#FFA46B",
-        // primary3: "#fda94f",
-        secondary1: "#fcfcfc",
+        primary3: "#33658A",
+        primary4: "#86BBD8",
+        primary5: "#F6AE2D",
+        primary6: "#F26419",
+        secondary1: "#ffffff",
         secondary2: "#919191",
         secondary3: "#dadada",
-        secondary4: "#f5fbff",
+        secondary4: "#ebebf5",
     },
 };

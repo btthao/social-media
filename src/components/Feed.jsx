@@ -1,14 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "./Input";
 import Post from "./Post";
 import styled from "styled-components";
-import { theme } from "../styles/theme";
-import { mixin, breakpoint } from "../styles/mixin";
+import { breakpoint } from "../styles/mixin";
 import { db } from "../app/firebase";
+import FlipMove from "react-flip-move";
 
 const Feed__container = styled.div`
   width: 100%;
   min-width: 46rem;
+  @media ${breakpoint.mobileL} {
+    min-width: 28rem;
+  }
 `;
 
 function Feed() {
@@ -30,17 +33,18 @@ function Feed() {
   return (
     <Feed__container>
       <Input />
-      {posts.map(({ id, data: { name, content, userId, createdAt } }) => (
-        <Post
-          key={id}
-          name={name}
-          content={content}
-          createdAt={createdAt}
-          userId={userId}
-          postId={id}
-          // like={false}
-        />
-      ))}
+      <FlipMove
+        staggerDelayBy={50}
+        appearAnimation="elevator"
+        enterAnimation="accordionVertical"
+        leaveAnimation="elevator"
+      >
+        {posts.map(({ id, data }) => (
+          <div key={id}>
+            <Post postId={id} {...data} />
+          </div>
+        ))}
+      </FlipMove>
     </Feed__container>
   );
 }

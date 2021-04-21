@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
 import { mixin, breakpoint } from "../styles/mixin";
@@ -9,13 +9,16 @@ import { useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
 
 const Input__container = styled.div`
-  width: 100%;
   background: ${theme.color.secondary1};
   ${mixin.borderR}
+  width: 100%;
   display: flex;
-  padding: 2rem 2.5rem;
+  padding: 2rem;
   margin-bottom: 3rem;
-  border: 0.1rem solid ${theme.color.secondary3};
+  box-shadow: 2px 3px 10px 0px ${theme.color.secondary3};
+  @media ${breakpoint.mobileL} {
+    padding: 1.5rem;
+  }
 `;
 
 const Input__form = styled.form`
@@ -27,24 +30,27 @@ const Input__form = styled.form`
 
 const Input__text = styled.textarea`
   ${mixin.borderR}
-  border: 0.1rem solid ${theme.color.primary3};
-  height: 10rem;
+  border: 0.1rem solid ${theme.color.secondary4};
+  background: ${theme.color.secondary1};
+  height: 12rem;
   width: 100%;
   resize: none;
   padding: 0.8rem;
   font-family: inherit;
   font-size: 1.4rem;
 `;
-const Input__button = styled(Button)`
-  &&& {
-    ${mixin.borderR}
-    ${mixin.transition}
-    background: ${theme.color.primary3};
-    color: ${theme.color.secondary1};
-    font-size: 1.5rem;
-    width: 100%;
-    cursor: pointer;
-    font-family: inherit;
+const Input__button = styled.button`
+  ${mixin.borderR}
+  ${mixin.transition}
+  background: ${theme.color.primary4};
+  color: ${theme.color.secondary1};
+  font-size: 1.8rem;
+  width: 100%;
+  padding: 0.8rem 0;
+  cursor: pointer;
+  font-family: inherit;
+  &:hover {
+    filter: contrast(150%);
   }
 `;
 

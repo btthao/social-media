@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import GlobalStyle from "./styles/globalStyles";
 import Header from "./components/Header";
 import Main from "./components/Main";
@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "./utils/userSlice";
 import { login, logout } from "./utils/userSlice";
 import { auth } from "./app/firebase";
+import moment from "moment";
 
 function App() {
   const user = useSelector(selectUser).name;
@@ -24,11 +25,30 @@ function App() {
             dateJoined: userAuth.metadata.creationTime,
           })
         );
-        setLoading(false);
       } else {
         dispatch(logout());
-        setLoading(false);
       }
+      setLoading(false);
+    });
+    moment.updateLocale("en", {
+      relativeTime: {
+        future: "in %s",
+        past: "%s",
+        s: "just now",
+        ss: "%d s",
+        m: "1m",
+        mm: "%dm",
+        h: "1h",
+        hh: "%dh",
+        d: "1d",
+        dd: "%dd",
+        w: "1w",
+        ww: "%dw",
+        M: "1m",
+        MM: "%dm",
+        y: "1y",
+        yy: "%dy",
+      },
     });
   }, []);
 

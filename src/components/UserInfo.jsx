@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
-import { mixin, breakpoint } from "../styles/mixin";
+import { mixin } from "../styles/mixin";
 import Avatar from "./Avatar";
 import { useSelector } from "react-redux";
 import { selectUser } from "../utils/userSlice";
@@ -9,15 +9,18 @@ import CreateIcon from "@material-ui/icons/Create";
 import { changeDesc } from "../utils/User";
 import { db } from "../app/firebase";
 import moment from "moment";
+import UploadImg from "./UploadImg";
+import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import Modal from "@material-ui/core/Modal";
 
 const UserInfo__container = styled.div`
   ${mixin.borderR}
   width: 100%;
   background: ${theme.color.primary3};
   background: linear-gradient(
-    250deg,
-    ${theme.color.primary3},
-    ${theme.color.primary1}
+    200deg,
+    ${theme.color.primary4},
+    ${theme.color.primary3}
   );
   border: 0.1rem solid ${theme.color.secondary3};
   height: fit-content;
@@ -26,7 +29,6 @@ const UserInfo__container = styled.div`
   overflow: hidden;
   position: relative;
   z-index: 1;
-  min-width: 24rem;
   padding-bottom: 1rem;
   &::after {
     content: "";
@@ -39,7 +41,7 @@ const UserInfo__container = styled.div`
     background-color: ${theme.color.secondary1};
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
-    z-index: 2;
+    z-index: 10;
   }
 `;
 
@@ -48,7 +50,7 @@ const UserInfo__img = styled.div`
   height: 100%;
   ${mixin.borderR}
   position: relative;
-  z-index: 10;
+  z-index: 20;
   background: transparent;
 `;
 
@@ -59,17 +61,31 @@ const UserInfo__avatar = styled.div`
   transform: translate(-50%, -50%);
 `;
 
+const UserInfo__upload = styled(AddAPhotoIcon)`
+  position: absolute;
+  ${mixin.transition}
+  top: 0;
+  right: 0;
+  transform: translate(20%, -20%);
+  cursor: pointer;
+  color: ${theme.color.secondary1};
+  font-size: 2rem !important;
+  &:hover {
+    color: ${theme.color.primary5};
+  }
+`;
+
 const UserInfo__stat = styled.div`
-  z-index: 10;
-  padding: 4rem 0.4rem 0;
+  z-index: 20;
+  padding: 4rem 0.7rem 0;
   text-align: center;
   word-break: break-all;
-  h6 {
+  h5 {
     font-size: 1.7rem;
     font-weight: 600;
     word-break: break-word;
     margin-bottom: 0.3rem;
-    color: ${theme.color.primary1};
+    color: ${theme.color.primary5};
   }
   p {
     font-size: 1.3rem;
@@ -84,11 +100,9 @@ const UserInfo__stat = styled.div`
       p {
         margin: 0;
         font-size: 1.4rem;
-        &:first-child {
-          font-weight: 600;
-        }
+        font-weight: 600;
         &:last-child {
-          color: ${theme.color.primary3};
+          color: ${theme.color.primary5};
         }
       }
     }
@@ -97,20 +111,21 @@ const UserInfo__stat = styled.div`
 
 const UserInfo__desc = styled.div`
   ${mixin.transition}
-  div:first-child {
+  .bio {
     cursor: pointer;
     margin-bottom: 0.5rem;
     padding: 0 1.3rem;
     h6 {
       font-size: 1.4rem;
       font-weight: 500;
+      color: ${theme.color.primary1};
       .MuiSvgIcon-root {
         font-size: 1.3rem;
       }
     }
     &:hover {
       h6 {
-        color: ${theme.color.primary3};
+        color: ${theme.color.primary4};
       }
     }
   }
@@ -120,8 +135,7 @@ const UserInfo__input = styled.form`
   margin-bottom: 0.8rem;
   visibility: ${({ show }) => (show ? "visible" : "hidden")};
   input {
-    border: 0.1rem solid ${theme.color.secondary3};
-    border-radius: 0.6rem;
+    border-bottom: 0.1rem solid ${theme.color.primary4};
     height: 2.3rem;
   }
   button {
@@ -137,19 +151,27 @@ function UserInfo() {
   const id = useSelector(selectUser).id;
   const email = useSelector(selectUser).email;
   const dateJoined = useSelector(selectUser).dateJoined.slice(5, 16);
+  const inputRef = useRef(null);
   const [description, setDescription] = useState("");
   const [descInput, setDescInput] = useState("");
   const [showInput, setShowInput] = useState(false);
-  const [totalPosts, setTotalPosts] = useState(0);
+  const [totalPosts, setTotalPosts] = useState("");
+  const [openImgUpload, setOpenImgUpload] = useState(false);
 
   useEffect(() => {
     db.collection("users")
       .doc(id)
       .onSnapshot((doc) => {
-        setDescription(doc.data().description);
-        setTotalPosts(doc.data().posts);
+        if (doc.exists) {
+          setDescription(doc.data().description);
+          setTotalPosts(doc.data().posts);
+        }
       });
   }, []);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [showInput]);
 
   const updateDesc = (e) => {
     e.preventDefault();
@@ -168,13 +190,24 @@ function UserInfo() {
       <UserInfo__img>
         <UserInfo__avatar>
           <Avatar size="6rem" fontSize="2.8rem" />
+          <UserInfo__upload onClick={() => setOpenImgUpload(true)} />
+          <Modal
+            open={openImgUpload}
+            onClose={() => setOpenImgUpload(false)}
+            aria-labelledby="img-modal"
+            aria-describedby="upload-img"
+          >
+            <>
+              <UploadImg onClick={() => setOpenImgUpload(false)} />
+            </>
+          </Modal>
         </UserInfo__avatar>
       </UserInfo__img>
       <UserInfo__stat>
-        <h6>{name}</h6>
+        <h5>{name}</h5>
         <p>{email}</p>
         <UserInfo__desc>
-          <div onClick={() => setShowInput(!showInput)}>
+          <div className="bio" onClick={() => setShowInput(!showInput)}>
             <h6>
               {description || "Add Bio"} <CreateIcon />
             </h6>
@@ -182,6 +215,7 @@ function UserInfo() {
           <UserInfo__input show={showInput}>
             <input
               type="text"
+              ref={inputRef}
               value={descInput}
               maxLength="50"
               onChange={(e) => setDescInput(e.target.value)}

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
-import { mixin, breakpoint } from "../styles/mixin";
+import { mixin } from "../styles/mixin";
 import Button from "./Button";
 import { auth } from "../app/firebase";
 import { useDispatch } from "react-redux";
 import { login } from "../utils/userSlice";
 import { newUser } from "../utils/User";
 import CloseIcon from "@material-ui/icons/Close";
+
 const Signup__form = styled.form`
   background: ${theme.color.secondary4};
   width: 95%;
@@ -56,34 +57,38 @@ function Signup({ onClick }) {
 
   const register = (e) => {
     e.preventDefault();
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userAuth) => {
-        userAuth.user
-          .updateProfile({
-            displayName: name,
-          })
-          .then(() => {
-            dispatch(
-              login({
+    if (name && email && password) {
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((userAuth) => {
+          userAuth.user
+            .updateProfile({
+              displayName: name,
+            })
+            .then(() => {
+              dispatch(
+                login({
+                  name,
+                  email: userAuth.user.email,
+                  id: userAuth.user.uid,
+                  dateJoined: userAuth.user.metadata.creationTime,
+                })
+              );
+            })
+            .then(() => {
+              //add to 'users' collection in firestore
+              newUser({
                 name,
-                email: userAuth.user.email,
                 id: userAuth.user.uid,
-                dateJoined: userAuth.user.metadata.creationTime,
-              })
-            );
-          })
-          .then(() => {
-            //add to 'users' collection
-            newUser({
-              name,
-              id: userAuth.user.uid,
+              });
             });
-          });
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    } else {
+      alert("Please fill in all required details!");
+    }
   };
 
   return (
@@ -94,7 +99,7 @@ function Signup({ onClick }) {
         required
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="Username"
+        placeholder="Your name"
         type="text"
       />
       <Signup__input

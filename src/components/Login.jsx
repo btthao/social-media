@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
-import { mixin, breakpoint } from "../styles/mixin";
+import { mixin } from "../styles/mixin";
 import EmojiFoodBeverageIcon from "@material-ui/icons/EmojiFoodBeverage";
 import Button from "./Button";
 import Signup from "./Signup";
@@ -31,7 +31,7 @@ const Login__form = styled.form`
   text-align: center;
   h1 {
     margin: 0.7rem auto 2rem;
-    color: ${theme.color.primary3};
+    color: ${theme.color.primary1};
     font-size: 2.2rem;
     font-weight: 600;
   }
@@ -69,21 +69,26 @@ function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+
   const loginToApp = (e) => {
     e.preventDefault();
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userAuth) => {
-        dispatch(
-          login({
-            name: userAuth.user.displayName,
-            email: userAuth.user.email,
-            id: userAuth.user.uid,
-            dateJoined: userAuth.user.metadata.creationTime,
-          })
-        );
-      })
-      .catch((error) => alert(error.message));
+    if (email && password) {
+      auth
+        .signInWithEmailAndPassword(email, password)
+        .then((userAuth) => {
+          dispatch(
+            login({
+              name: userAuth.user.displayName,
+              email: userAuth.user.email,
+              id: userAuth.user.uid,
+              dateJoined: userAuth.user.metadata.creationTime,
+            })
+          );
+        })
+        .catch((error) => alert(error.message));
+    } else {
+      alert("Please fill in all required fields!");
+    }
   };
   const handleClose = () => {
     setShowSignup(false);
