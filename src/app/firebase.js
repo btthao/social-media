@@ -1,15 +1,17 @@
+/* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
 import firebase from "firebase";
 import "firebase/storage";
 
+
 const config = {
-    apiKey: "AIzaSyAcMSkXD0yvAhMAYot3hkgNiQk_ivbRJcQ",
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: "social-media-v.firebaseapp.com",
     projectId: "social-media-v",
     storageBucket: "social-media-v.appspot.com",
-    messagingSenderId: "861782803116",
-    appId: "1:861782803116:web:4e35f5c0c6a022bb27d509",
-    measurementId: "G-7P7CHKZFB1",
+    messagingSenderId: process.env.REACT_APP_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 const firebaseApp =

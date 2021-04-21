@@ -52,7 +52,7 @@ const pop = keyframes`
 const PostIcons__like = styled(FavoriteIcon)`
   cursor: pointer;
   ${({ like }) =>
-    like
+    like === "like"
       ? css`
           color: ${theme.color.primary5} !important;
           animation: ${pop} 0.3s 1;
@@ -119,7 +119,7 @@ function PostIcons({ postId, userId, totalComments, totalLikes, liked }) {
         <PostIcons__like
           className="icon"
           onClick={likeThis}
-          like={liked ? true : false}
+          like={liked ? "like" : undefined}
         />
         <PostIcons__text
           aria-owns={openLikePopover ? "likes-popover" : undefined}

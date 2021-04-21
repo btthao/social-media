@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { css } from "styled-components";
-import { theme } from "./theme";
+
 export const breakpoint = {
   mobileS: `(max-width: 320px)`,
   mobileL: `(max-width: 425px)`,

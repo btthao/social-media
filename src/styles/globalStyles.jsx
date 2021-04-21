@@ -15,8 +15,7 @@ body {
     background-color: #EFF2F5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    width: 100%;
-    
+    width: 100%;   
     overflow: scroll;
     color: ${theme.color.primary2};
  

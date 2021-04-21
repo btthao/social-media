@@ -1,5 +1,4 @@
 import { db } from "../app/firebase";
-import firebase from "firebase";
 import moment from "moment";
 import { commentNotification, removeCommentNotification } from "./Notification";
 

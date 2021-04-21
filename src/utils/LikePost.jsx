@@ -14,7 +14,7 @@ export const likePost = ({ postId, newLike }) => {
       const index = currentList.findIndex(
         (obj) => obj.currentUid === newLike.currentUid
       );
-      // console.log(index);
+
       if (index > -1) {
         // if user already liked this post then unlike it
         currentList.splice(index, 1);

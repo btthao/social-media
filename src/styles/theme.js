@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 export const theme = {
     color: {
-
         primary1: "#2F4858",
         primary2: "#3f3f3f",
         primary3: "#33658A",

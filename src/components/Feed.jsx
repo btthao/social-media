@@ -35,8 +35,8 @@ function Feed() {
       <Input />
       <FlipMove
         staggerDelayBy={50}
-        appearAnimation="elevator"
-        enterAnimation="accordionVertical"
+        appearAnimation="fade"
+        enterAnimation="fade"
         leaveAnimation="elevator"
       >
         {posts.map(({ id, data }) => (
