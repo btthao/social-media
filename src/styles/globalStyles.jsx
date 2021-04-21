@@ -31,6 +31,11 @@ a {
 ul{
     list-style: none;
 }
+
+input{
+    -webkit-appearance: none;
+}
+
 `;
 
 export default GlobalStyle;

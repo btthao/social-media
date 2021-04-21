@@ -62,7 +62,6 @@ const Login__input = styled.input`
   box-shadow: inset 7px 7px 12px #e8e8e8,
     inset -8px -8px 12px ${theme.color.secondary4};
   border-radius: 2rem;
-  -webkit-appearance: none;
 `;
 
 function LogIn() {

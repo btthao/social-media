@@ -38,6 +38,7 @@ const Input__text = styled.textarea`
   padding: 0.8rem;
   font-family: inherit;
   font-size: 1.4rem;
+  -webkit-appearance: none;
 `;
 const Input__button = styled.button`
   ${mixin.borderR}
